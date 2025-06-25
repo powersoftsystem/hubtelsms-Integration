@@ -5,27 +5,18 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "recipient",
-  "column_break_dgmq",
-  "status",
+  "recipients",
   "section_break_uuhz",
   "message",
   "amended_from"
  ],
  "fields": [
   {
-   "fieldname": "column_break_dgmq",
-   "fieldtype": "Column Break"
-  },
-  {
-   "allow_on_submit": 1,
-   "fieldname": "status",
-   "fieldtype": "Select",
-   "in_list_view": 1,
-   "in_standard_filter": 1,
-   "label": "Status",
-   "options": "Sent\nDelivered\nFailed\nScheduled",
-   "read_only": 1
+   "fieldname": "recipients",
+   "fieldtype": "Table",
+   "label": "Recipients",
+   "options": "Hubtel SMS Recipient",
+   "reqd": 1
   },
   {
    "fieldname": "section_break_uuhz",
@@ -37,14 +28,6 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Content",
-   "reqd": 1
-  },
-  {
-   "fieldname": "recipient",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "in_standard_filter": 1,
-   "label": "Recipient ",
    "reqd": 1
   },
   {
@@ -62,7 +45,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-06-23 03:15:53.786012",
+ "modified": "2025-06-25 04:02:24.313857",
  "modified_by": "Administrator",
  "module": "Hubtel Sms",
  "name": "Hubtel SMS",
@@ -87,8 +70,16 @@
  "sort_order": "DESC",
  "states": [
   {
+   "color": "Gray",
+   "title": "Draft"
+  },
+  {
    "color": "Blue",
    "title": "Sent"
+  },
+  {
+   "color": "Yellow",
+   "title": "Partially Delivered"
   },
   {
    "color": "Green",

@@ -6,23 +6,58 @@
  "engine": "InnoDB",
  "field_order": [
   "title",
-  "document_type",
-  "recipient_fieldname",
-  "column_break_zrfr",
-  "event",
+  "column_break_basic",
   "enabled",
-  "section_break_dvxn",
-  "sms_message_template"
+  "section_break_trigger",
+  "document_type",
+  "event",
+  "column_break_event",
+  "send_to_field",
+  "recipient_fieldname",
+  "fixed_number",
+  "section_break_conditions",
+  "condition",
+  "column_break_pvdw",
+  "condition_html",
+  "section_break_message",
+  "sms_message_template",
+  "column_break_message",
+  "message_variables_help",
+  "section_break_settings",
+  "retry_attempts",
+  "retry_interval",
+  "column_break_settings",
+  "send_immediately",
+  "delay_in_minutes"
  ],
  "fields": [
   {
+   "description": "A descriptive title for this SMS notification rule",
    "fieldname": "title",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Title",
+   "label": "Notification Title",
    "reqd": 1
   },
   {
+   "default": "1",
+   "description": "Check to activate this notification rule",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Enabled"
+  },
+  {
+   "fieldname": "column_break_basic",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_trigger",
+   "fieldtype": "Section Break",
+   "label": "Trigger Settings"
+  },
+  {
+   "description": "The document type that will trigger this SMS notification",
    "fieldname": "document_type",
    "fieldtype": "Link",
    "in_list_view": 1,
@@ -33,44 +68,124 @@
    "reqd": 1
   },
   {
-   "depends_on": "eval:doc.document_type",
-   "fieldname": "recipient_fieldname",
+   "description": "The specific event that will trigger this SMS notification",
+   "fieldname": "event",
    "fieldtype": "Select",
    "in_list_view": 1,
-   "label": "Recipient Fieldname",
+   "label": "Trigger Event",
+   "options": "Before Save\nAfter Insert\nBefore Submit\nOn Submit\nBefore Cancel\nOn Cancel\nOn Update After Submit\nBefore Delete\nAfter Delete\nOn Change",
    "reqd": 1
   },
   {
-   "fieldname": "column_break_zrfr",
+   "fieldname": "column_break_event",
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "event",
+   "default": "Field",
+   "description": "How to determine the recipient's phone number",
+   "fieldname": "send_to_field",
    "fieldtype": "Select",
-   "label": "Event",
-   "options": "Before Save\nAfter Insert\nOn Submit"
+   "label": "Send To",
+   "options": "Field\nFixed Number",
+   "reqd": 1
   },
   {
-   "default": "0",
-   "fieldname": "enabled",
-   "fieldtype": "Check",
-   "label": "Enabled"
+   "depends_on": "eval:doc.document_type && doc.send_to_field == 'Field'",
+   "description": "Field in the document that contains the recipient's phone number",
+   "fieldname": "recipient_fieldname",
+   "fieldtype": "Select",
+   "label": "Recipient Phone Field"
   },
   {
-   "fieldname": "section_break_dvxn",
-   "fieldtype": "Section Break"
+   "depends_on": "eval:doc.send_to_field == 'Fixed Number'",
+   "description": "Enter the fixed phone number to send SMS to (e.g., +233201234567)",
+   "fieldname": "fixed_number",
+   "fieldtype": "Data",
+   "label": "Fixed Phone Number"
   },
   {
-   "fieldname": "sms_message_template",
+   "fieldname": "section_break_conditions",
+   "fieldtype": "Section Break",
+   "label": "Conditional Logic"
+  },
+  {
+   "fieldname": "condition",
    "fieldtype": "Small Text",
+   "label": "Condition "
+  },
+  {
+   "fieldname": "section_break_message",
+   "fieldtype": "Section Break",
+   "label": "Message Template"
+  },
+  {
+   "description": "Message template with variables in curly braces {field_name}. Character limit: 160 for single SMS",
+   "fieldname": "sms_message_template",
+   "fieldtype": "Long Text",
    "label": "SMS Message Template",
    "reqd": 1
+  },
+  {
+   "fieldname": "column_break_message",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "message_variables_help",
+   "fieldtype": "HTML",
+   "label": "Available Variables",
+   "options": "<div class=\"text-muted small\">\n<p><strong>Variable Usage:</strong></p>\n<ul>\n<li>Use <code>{field_name}</code> to insert field values</li>\n<li>Common variables: <code>{name}</code>, <code>{owner}</code>, <code>{creation}</code></li>\n<li>Date formatting: <code>{modified:dd/mm/yyyy}</code></li>\n</ul>\n<p><strong>Example:</strong><br>\n\"Hello {customer_name}, your order {name} has been {status}. Total: {grand_total}\"</p>\n</div>"
+  },
+  {
+   "fieldname": "section_break_settings",
+   "fieldtype": "Section Break",
+   "label": "Advanced Settings"
+  },
+  {
+   "default": "3",
+   "description": "Number of times to retry sending SMS if it fails (0-10)",
+   "fieldname": "retry_attempts",
+   "fieldtype": "Int",
+   "label": "Retry Attempts"
+  },
+  {
+   "default": "5",
+   "description": "Minutes to wait between retry attempts (1-60)",
+   "fieldname": "retry_interval",
+   "fieldtype": "Int",
+   "label": "Retry Interval (minutes)"
+  },
+  {
+   "fieldname": "column_break_settings",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "description": "Send SMS immediately when triggered, otherwise use delay setting",
+   "fieldname": "send_immediately",
+   "fieldtype": "Check",
+   "label": "Send Immediately"
+  },
+  {
+   "depends_on": "eval:!doc.send_immediately",
+   "description": "Minutes to wait before sending SMS (useful for allowing cancellations)",
+   "fieldname": "delay_in_minutes",
+   "fieldtype": "Int",
+   "label": "Delay (minutes)"
+  },
+  {
+   "fieldname": "column_break_pvdw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "condition_html",
+   "fieldtype": "HTML",
+   "options": "<p><strong>Condition Examples:</strong></p>\n<pre>doc.status==\"Open\"<br>doc.due_date==nowdate()<br>doc.total &gt; 40000\n</pre>\n"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-06-23 03:35:14.062177",
+ "modified": "2025-06-24 14:38:41.400219",
  "modified_by": "Administrator",
  "module": "Hubtel Sms",
  "name": "Hubtel SMS Notification",

@@ -1,0 +1,64 @@
+{
+ "actions": [],
+ "creation": "2025-06-23 04:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "field_name",
+  "operator",
+  "column_break_condition",
+  "value",
+  "value_type"
+ ],
+ "fields": [
+  {
+   "fieldname": "field_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Field Name",
+   "reqd": 1,
+   "description": "The field to check in the document"
+  },
+  {
+   "fieldname": "operator",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Operator",
+   "options": "=\n!=\n>\n>=\n<\n<=\ncontains\nnot contains\nin\nnot in\nis set\nis not set",
+   "reqd": 1,
+   "default": "="
+  },
+  {
+   "fieldname": "column_break_condition",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:!['is set', 'is not set'].includes(doc.operator)",
+   "fieldname": "value",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Value",
+   "description": "Value to compare against (for multiple values in 'in' operator, separate with comma)"
+  },
+  {
+   "default": "Static",
+   "fieldname": "value_type",
+   "fieldtype": "Select",
+   "label": "Value Type",
+   "options": "Static\nField\nCurrent User\nCurrent Date\nCurrent Time",
+   "description": "Type of value to compare with"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2025-06-23 04:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Hubtel Sms",
+ "name": "SMS Notification Condition",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+} 
