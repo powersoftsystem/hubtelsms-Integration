@@ -5,30 +5,17 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "base_url",
   "sender_id",
-  "column_break_hqxp",
   "client_id",
   "client_secret"
  ],
  "fields": [
-  {
-   "fieldname": "base_url",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Base URL",
-   "reqd": 1
-  },
   {
    "fieldname": "sender_id",
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Sender ID",
    "reqd": 1
-  },
-  {
-   "fieldname": "column_break_hqxp",
-   "fieldtype": "Column Break"
   },
   {
    "fieldname": "client_id",
@@ -49,7 +36,7 @@
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-06-23 03:11:23.604182",
+ "modified": "2025-06-25 16:17:11.373172",
  "modified_by": "Administrator",
  "module": "Hubtel Sms",
  "name": "Hubtel SMS Settings",

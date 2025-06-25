@@ -25,7 +25,7 @@ def send_sms(to, content):
     settings = frappe.get_doc("Hubtel SMS Settings")
     params = {
         "clientid": settings.client_id,
-        "clientsecret": settings.client_secret,
+        "clientsecret": settings.get_password("client_secret"),
         "from": settings.sender_id,
         "to": to,
         "content": content

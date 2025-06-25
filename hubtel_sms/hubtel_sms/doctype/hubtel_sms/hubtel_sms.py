@@ -8,4 +8,5 @@ from frappe.model.document import Document
 
 class HubtelSMS(Document):
 	def on_submit(self):
-		send_sms(self.to, self.content)
+		for recipient in self.recipients:
+			send_sms(recipient.recipient, self.message)
