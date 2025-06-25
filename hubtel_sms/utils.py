@@ -116,7 +116,14 @@ def process_notification(notification_doc, doc):
         
         # Send SMS (immediately or with delay)
         if notification_doc.send_immediately:
-            send_sms_with_retry(phone_number, message, notification_doc)
+            hubtel_sms = frappe.new_doc("Hubtel SMS")
+            hubtel_sms.append("recipients", {
+                "recipient": phone_number,
+            })
+            hubtel_sms.content = message
+            hubtel_sms.save()
+            frappe.db.commit()
+
         else:
             # Schedule for later (you can implement background job here)
             delay_minutes = notification_doc.delay_in_minutes or 0
@@ -126,7 +133,13 @@ def process_notification(notification_doc, doc):
                     f"Delayed SMS scheduling not implemented yet. Sending immediately.",
                     "SMS Notification Info"
                 )
-            send_sms_with_retry(phone_number, message, notification_doc)
+            hubtel_sms = frappe.new_doc("Hubtel SMS")
+            hubtel_sms.append("recipients", {
+                "recipient": phone_number,
+            })
+            hubtel_sms.content = message
+            hubtel_sms.save()
+            frappe.db.commit()
             
     except Exception as e:
         frappe.log_error(
