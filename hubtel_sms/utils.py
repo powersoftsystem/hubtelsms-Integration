@@ -10,6 +10,47 @@ CLIENT_ID = "qyqerqtz"
 CLIENT_SECRET = "howmtaqy"
 SENDER_ID = "StillEVen"
 
+def replace_template_fields(message_template, doc):
+    """
+    Replace curly brackets in message template with actual field values from document.
+    
+    Args:
+        message_template (str): The message template with curly brackets
+        doc: The document object
+        
+    Returns:
+        str: Message with replaced field values
+    """
+    if not message_template or not doc:
+        return message_template
+    
+    # Find all field names in curly brackets
+    field_pattern = r'\{([^}]+)\}'
+    matches = re.findall(field_pattern, message_template)
+    
+    # Replace each field with its value
+    for field_name in matches:
+        field_value = ""
+        
+        # Handle nested fields (e.g., customer_name)
+        if hasattr(doc, field_name):
+            field_value = getattr(doc, field_name)
+        elif hasattr(doc, 'as_dict'):
+            # Try to get from document dictionary
+            doc_dict = doc.as_dict()
+            field_value = doc_dict.get(field_name, "")
+        
+        # Convert to string and handle None values
+        if field_value is None:
+            field_value = ""
+        else:
+            field_value = str(field_value)
+        
+        # Replace the curly bracket placeholder
+        message_template = message_template.replace(f'{{{field_name}}}', field_value)
+    
+    return message_template
+
 @frappe.whitelist(allow_guest=True)
 def send_sms(to, content):
     """
@@ -95,16 +136,13 @@ def sms_notification(doc, method=None):
                         "recipient": frappe.db.get_value(doc.doctype, doc.name, notification_doc.recipient_fieldname),
                     })
                 else:
-                   
-                    
-                    
-                    
                     sms.append("recipients", {
                         "recipient": frappe.db.get_value(doc.doctype, doc.name, notification_doc.recipient_fieldname),
                     })
                 
-               
-                sms.message = notification_doc.sms_message_template
+                # Replace template fields with actual values
+                processed_message = replace_template_fields(notification_doc.sms_message_template, doc)
+                sms.message = processed_message
                
                 # Save SMS with flags to prevent recursion
                 sms.flags.ignore_permissions = True
