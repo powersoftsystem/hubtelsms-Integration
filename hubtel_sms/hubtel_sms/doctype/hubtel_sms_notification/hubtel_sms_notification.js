@@ -9,6 +9,7 @@
 
 frappe.ui.form.on("Hubtel SMS Notification", {
 	refresh: function(frm) {
+		frm.trigger("set_recipient_field_options");
 		// Add custom buttons and styling
 		if (!frm.doc.__islocal) {
 			frm.add_custom_button(__("Test SMS"), function() {
@@ -27,8 +28,11 @@ frappe.ui.form.on("Hubtel SMS Notification", {
 		// Set field requirements based on send_to_field
 		set_recipient_field_requirements(frm);
 	},
-
 	document_type: function(frm) {
+		frm.trigger("set_recipient_field_options");
+	},
+
+	set_recipient_field_options: function(frm) {
 		if (frm.doc.document_type) {
 			// Clear existing options
 			frm.set_df_property('recipient_fieldname', 'options', []);

@@ -139,16 +139,9 @@ app_license = "mit"
 
 doc_events = {
 	"*": {
-		"before_save": "hubtel_sms.utils.sms_notification",
 		"after_insert": "hubtel_sms.utils.sms_notification",
-		"before_submit": "hubtel_sms.utils.sms_notification",
 		"on_submit": "hubtel_sms.utils.sms_notification",
-		"before_cancel": "hubtel_sms.utils.sms_notification",
-		"on_cancel": "hubtel_sms.utils.sms_notification",
-		"on_update_after_submit": "hubtel_sms.utils.sms_notification",
-		"before_delete": "hubtel_sms.utils.sms_notification",
-		"after_delete": "hubtel_sms.utils.sms_notification",
-		"on_change": "hubtel_sms.utils.sms_notification"
+		
 	}
 }
 

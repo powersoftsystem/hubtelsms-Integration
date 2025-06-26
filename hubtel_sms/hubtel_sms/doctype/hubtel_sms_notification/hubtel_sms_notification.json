@@ -73,7 +73,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Trigger Event",
-   "options": "Before Save\nAfter Insert\nBefore Submit\nOn Submit\nBefore Cancel\nOn Cancel\nOn Update After Submit\nBefore Delete\nAfter Delete\nOn Change",
+   "options": "\nafter_insert\non_submit",
    "reqd": 1
   },
   {
@@ -185,7 +185,7 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-06-24 14:38:41.400219",
+ "modified": "2025-06-26 02:23:28.925398",
  "modified_by": "Administrator",
  "module": "Hubtel Sms",
  "name": "Hubtel SMS Notification",
